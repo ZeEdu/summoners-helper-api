@@ -4,7 +4,7 @@ const ValidationsDAO = require('./dao/validationsDAO');
 
 const port = process.env.PORT || 8000;
 
-MongoClient.connect(process.env.SUMMONERS_DB_URI, { useNewUrlParser: true })
+MongoClient.connect(process.env.SUMMONERS_DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch(err => {
     console.error(err.stack);
     process.exit(1);
