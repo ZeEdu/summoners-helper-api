@@ -4,8 +4,7 @@ const UserCtrl = require('./users.controller');
 
 const router = new Router();
 
-router.route('/addUser').post(UserCtrl.addUser);
-router.route('/getUser').get();
-router.route('/deleteUser').delete();
+router.route('/adduser').post(UserCtrl.addUser);
+router.route('/deleteuser').delete(UserCtrl.deleteUser);
 
 module.exports = router;
