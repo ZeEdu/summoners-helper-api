@@ -1,11 +1,11 @@
-const ValidationsDAO = require('../dao/validationsDAO');
+const UsersDAO = require('../dao/usersDAO');
 
 class ValidationCtrl {
   static async checkemail(req, res) {
     try {
-      const qrryRes = await ValidationsDAO.getUserByEmail(req.params.email);
+      const qrryRes = await UsersDAO.getUserByEmail(req.params.email);
       if (qrryRes == null) {
-        res.status(200).json({ message: false });
+        res.status(200).json({});
       } else {
         res.status(200).json({ message: true });
       }
@@ -16,9 +16,9 @@ class ValidationCtrl {
 
   static async checkusername(req, res) {
     try {
-      const qrryRes = await ValidationsDAO.getUserNyUsername(req.params.username);
+      const qrryRes = await UsersDAO.getUserByUsername(req.params.username);
       if (qrryRes == null) {
-        res.status(200).json({ message: false });
+        res.status(200).json({});
       } else {
         res.status(200).json({ message: true });
       }
