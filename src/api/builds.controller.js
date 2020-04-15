@@ -25,9 +25,8 @@ class BuildsController {
 
   static async getBuildsByChampion(req, res) {
     try {
-      const championID = parseInt(req.params.championid);
+      const championID = req.params.championid;
       const findResult = await BuildsDAO.getBuildsByChampion(championID);
-      console.log(findResult);
       res.status(200).json(findResult);
     } catch (e) {}
   }
@@ -35,6 +34,7 @@ class BuildsController {
   static async getBuildsByUser(req, res) {
     try {
       const creatorID = req.params.creatorid;
+      console.log(creatorID);
       const findResult = await BuildsDAO.getBuildsByUser(creatorID);
       res.status(200).json(findResult);
     } catch (e) {}

@@ -57,8 +57,15 @@ class BuildsDAO {
     } catch (e) {}
   }
   static async getBuildsByUser(creatorID) {
+    const filter = { usrUID: creatorID };
+    const projection = {
+      _id: 1,
+      champ: 1,
+      name: 1,
+      patch: 1
+    };
     try {
-      const findResult = await builds.find({ usrUID: creatorID });
+      const findResult = await builds.find(filter).project(projection);
       return findResult.toArray();
     } catch (e) {
       return { e };
@@ -66,7 +73,15 @@ class BuildsDAO {
   }
   static async getBuildsByChampion(championID) {
     try {
-      const findResult = await builds.find({ champ: championID });
+      const filter = { champ: championID };
+      const projection = {
+        _id: 1,
+        usrUID: 1,
+        champ: 1,
+        name: 1,
+        patch: 1
+      };
+      const findResult = await builds.find(filter).project(projection);
       return findResult.toArray();
     } catch (e) {
       return { e };
