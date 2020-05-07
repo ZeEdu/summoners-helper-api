@@ -4,11 +4,16 @@ class BuildsController {
   static async addBuild(req, res) {
     try {
       const BuildFromBody = req.body;
+      BuildFromBody.createdOn = Date.now();
+      BuildFromBody.patch = process.env.PATCH_VERSION;
+      console.log(BuildFromBody);
       const insertResult = await BuildsDAO.addBuild(BuildFromBody);
-      console.log(` inserted:  ${insertResult.success}`);
-      res.status(200).json(insertResult.success);
+      if (insertResult.success !== true) {
+        res.status(500).json({ error: 'Internal error, please try again later' });
+      }
+      res.status(201).json({ insertResult });
     } catch (e) {
-      res.status(400).json({ error: e });
+      res.status(500).json({ error: e });
     }
   }
 
@@ -18,7 +23,6 @@ class BuildsController {
       console.log(BuildFromBody._id);
       const updateResult = await BuildsDAO.updateBuild(BuildFromBody);
       console.log(updateResult);
-
       res.status(200).json(updateResult);
     } catch (e) {}
   }
@@ -43,12 +47,16 @@ class BuildsController {
   static async deleteBuild(req, res) {
     try {
       const buildID = req.params.buildid;
-      console.log(`Id informado: ${buildID}`);
-
       const deleteResult = await BuildsDAO.deleteBuild(buildID);
-
-      res.status(200).json(deleteResult);
-    } catch (e) {}
+      console.log(deleteResult);
+      if (deleteResult.success !== true) {
+        res.status(500).json({ error: 'Internal error, please try again later' });
+      }
+      res.status(200).json({ deleteResult });
+    } catch (e) {
+      console.error('Error occurred while removig the guide', e);
+      res.status(400).json({ error: e });
+    }
   }
 }
 module.exports = BuildsController;

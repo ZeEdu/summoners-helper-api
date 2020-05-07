@@ -15,23 +15,24 @@ class BuildsDAO {
   static async addBuild(buildBody) {
     try {
       await builds.insertOne({
-        usrUID: buildBody.usrUID,
-        champ: buildBody.champ,
-        name: buildBody.build,
+        usrUID: buildBody.userUID,
+        name: buildBody.name,
+        champ: buildBody.champion,
+        role: buildBody.role,
+        createdOn: buildBody.createdOn,
         patch: buildBody.patch,
-        pub: new Date(),
-        pRune: buildBody.pRunes,
-        sRune: buildBody.sRunes,
+        runes: buildBody.runes,
         bonus: buildBody.bonus,
         spells: buildBody.spells,
-        items: buildBody.items,
-        abilities: buildBody.abilities,
+        items: buildBody.itemsBlock,
+        abilities: buildBody.abilitiesProgression,
         threats: buildBody.threats,
         description: buildBody.description
       });
       return { success: true };
     } catch (e) {
       console.error(`Error occurred while adding new Build, ${e}`);
+      return { error: e };
     }
   }
 
@@ -90,11 +91,10 @@ class BuildsDAO {
   static async deleteBuild(buildID) {
     try {
       const id = new ObjectID(buildID);
-      const deleteResponse = await builds.deleteOne({ _id: id });
-      return deleteResponse;
+      await builds.deleteOne({ _id: id });
+      return { success: true };
     } catch (e) {
-      console.log(e);
-
+      console.error(`Error occurred while removig the guide, ${e}`);
       return { error: e };
     }
   }
