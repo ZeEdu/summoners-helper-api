@@ -1,4 +1,4 @@
-const ObjectID = require('mongodb').ObjectID;
+const ObjectId = require('mongodb').ObjectID;
 let builds;
 
 class BuildsDAO {
@@ -12,6 +12,7 @@ class BuildsDAO {
       console.error(`Unable to establish collection handles in build: ${e}`);
     }
   }
+
   static async addBuild(buildBody) {
     try {
       await builds.insertOne({
@@ -57,6 +58,15 @@ class BuildsDAO {
       );
     } catch (e) {}
   }
+
+  static async getBuildById(id) {
+    try {
+      return builds.findOne({ _id: new ObjectId(id) });
+    } catch (e) {
+      return { e };
+    }
+  }
+
   static async getBuildsByUser(creatorID) {
     const filter = { usrUID: creatorID };
     const projection = {
@@ -72,6 +82,7 @@ class BuildsDAO {
       return { e };
     }
   }
+
   static async getBuildsByChampion(championID) {
     try {
       const filter = { champ: championID };
@@ -88,9 +99,10 @@ class BuildsDAO {
       return { e };
     }
   }
+
   static async deleteBuild(buildID) {
     try {
-      const id = new ObjectID(buildID);
+      const id = new ObjectId(buildID);
       await builds.deleteOne({ _id: id });
       return { success: true };
     } catch (e) {
