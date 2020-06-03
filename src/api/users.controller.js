@@ -65,6 +65,28 @@ class UserCtrl {
     }
   }
 
+  static async getUserByUID(req, res) {
+    console.log('Entrou em getUserByUID');
+
+    try {
+      const UID = req.params.uid;
+      let errors = {};
+
+      const stmResult = await UsersDAO.getUserByUID(UID);
+      if (stmResult == null) {
+        errors.message = 'Username not found';
+      }
+
+      if (Object.keys(errors) > 0) {
+        res.status(400).json(errors);
+        return;
+      }
+      res.status(200).json(stmResult.username);
+    } catch (e) {
+      return { e };
+    }
+  }
+
   static async deleteUser(req, res) {
     try {
       const userData = req.body;

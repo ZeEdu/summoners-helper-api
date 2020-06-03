@@ -16,19 +16,24 @@ class BuildsDAO {
   static async addBuild(buildBody) {
     try {
       await builds.insertOne({
-        usrUID: buildBody.userUID,
+        userUID: buildBody.userUID,
         name: buildBody.name,
-        champ: buildBody.champion,
+        champion: buildBody.champion,
         role: buildBody.role,
         createdOn: buildBody.createdOn,
         patch: buildBody.patch,
         runes: buildBody.runes,
+        runesDescription: buildBody.runesDescription,
         bonus: buildBody.bonus,
+        bonusDescription: buildBody.bonusDescription,
         spells: buildBody.spells,
-        items: buildBody.itemsBlock,
-        abilities: buildBody.abilitiesProgression,
+        spellsDescription: buildBody.spellsDescription,
+        itemsBlock: buildBody.itemsBlock,
+        itemsDescription: buildBody.itemsDescription,
+        abilitiesProgression: buildBody.abilitiesProgression,
+        abilitiesProgressionDescription: buildBody.abilitiesProgressionDescription,
         threats: buildBody.threats,
-        description: buildBody.description
+        introduction: buildBody.introduction
       });
       return { success: true };
     } catch (e) {
@@ -68,10 +73,10 @@ class BuildsDAO {
   }
 
   static async getBuildsByUser(creatorID) {
-    const filter = { usrUID: creatorID };
+    const filter = { userUID: creatorID };
     const projection = {
       _id: 1,
-      champ: 1,
+      champion: 1,
       name: 1,
       patch: 1
     };
@@ -85,11 +90,11 @@ class BuildsDAO {
 
   static async getBuildsByChampion(championID) {
     try {
-      const filter = { champ: championID };
+      const filter = { champion: championID };
       const projection = {
         _id: 1,
-        usrUID: 1,
-        champ: 1,
+        userUID: 1,
+        champion: 1,
         name: 1,
         patch: 1
       };
