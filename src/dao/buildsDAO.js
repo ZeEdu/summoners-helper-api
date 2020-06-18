@@ -49,16 +49,25 @@ class BuildsDAO {
           _id: ObjectId(buildBody._id)
         },
         {
+          userUID: buildBody.userUID,
+          name: buildBody.name,
+          champion: buildBody.champion,
+          introduction: buildBody.introduction,
+          role: buildBody.role,
+          createdOn: buildBody.createdOn,
+          updatedOn: buildBody.updatedOn,
           patch: buildBody.patch,
-          updated: new Date(),
-          pRune: buildBody.pRunes,
-          sRune: buildBody.sRunes,
+          runes: buildBody.runes,
+          runesDescription: buildBody.runesDescription,
           bonus: buildBody.bonus,
+          bonusDescription: buildBody.bonusDescription,
           spells: buildBody.spells,
-          items: buildBody.items,
-          abilities: buildBody.abilities,
-          threats: buildBody.threats,
-          description: buildBody.description
+          spellsDescription: buildBody.spellsDescription,
+          itemsBlock: buildBody.itemsBlock,
+          itemsDescription: buildBody.itemsDescription,
+          abilitiesProgression: buildBody.abilitiesProgression,
+          abilitiesProgressionDescription: buildBody.abilitiesProgressionDescription,
+          threats: buildBody.threats
         }
       );
     } catch (e) {}
@@ -72,7 +81,7 @@ class BuildsDAO {
     }
   }
 
-  static async getBuildsByUser(creatorID) {
+  static async getBuildsByUser(creatorID, page) {
     const filter = { userUID: creatorID };
     const projection = {
       _id: 1,
@@ -81,14 +90,18 @@ class BuildsDAO {
       patch: 1
     };
     try {
-      const findResult = await builds.find(filter).project(projection);
+      const findResult = await builds
+        .find(filter)
+        .project(projection)
+        .limit(10)
+        .skip(page * 10);
       return findResult.toArray();
     } catch (e) {
       return { e };
     }
   }
 
-  static async getBuildsByChampion(championID) {
+  static async getBuildsByChampion(championID, page) {
     try {
       const filter = { champion: championID };
       const projection = {
@@ -98,7 +111,11 @@ class BuildsDAO {
         name: 1,
         patch: 1
       };
-      const findResult = await builds.find(filter).project(projection);
+      const findResult = await builds
+        .find(filter)
+        .project(projection)
+        .limit(10)
+        .skip(page * 10);
       return findResult.toArray();
     } catch (e) {
       return { e };

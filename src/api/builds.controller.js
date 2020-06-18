@@ -14,17 +14,17 @@ class BuildsController {
       res.status(400).json({ error: e });
     }
   }
+
   static async addBuild(req, res) {
     try {
-      const BuildFromBody = req.body;
-      BuildFromBody.createdOn = Date.now();
-      BuildFromBody.patch = process.env.PATCH_VERSION;
-      const insertResult = await BuildsDAO.addBuild(BuildFromBody);
+      const Guide = req.body;
+      Guide.createdOn = Date.now();
+      Guide.patch = process.env.PATCH_VERSION;
+      const insertResult = await BuildsDAO.addBuild(Guide);
       if (insertResult.success !== true) {
         res.status(500).json({ error: 'Internal error, please try again later' });
       }
-      console.log(insertResult);
-      res.status(201).json(insertResult);
+      res.status(201).json(insertResult.success);
     } catch (e) {
       res.status(500).json({ error: e });
     }
@@ -32,9 +32,10 @@ class BuildsController {
 
   static async updateBuild(req, res) {
     try {
-      const BuildFromBody = req.body;
+      const Guide = req.body;
+      Guide.updatedOn = Date.now();
+      Guide.patch = process.env.PATCH_VERSION;
       const updateResult = await BuildsDAO.updateBuild(BuildFromBody);
-      console.log(updateResult);
       res.status(200).json(updateResult);
     } catch (e) {}
   }
@@ -42,7 +43,8 @@ class BuildsController {
   static async getBuildsByChampion(req, res) {
     try {
       const championID = req.params.championid;
-      const findResult = await BuildsDAO.getBuildsByChampion(championID);
+      const page = req.params.page;
+      const findResult = await BuildsDAO.getBuildsByChampion(championID, page);
       res.status(200).json(findResult);
     } catch (e) {}
   }
@@ -50,8 +52,8 @@ class BuildsController {
   static async getBuildsByUser(req, res) {
     try {
       const creatorID = req.params.creatorid;
-      const findResult = await BuildsDAO.getBuildsByUser(creatorID);
-      console.log(findResult);
+      const page = req.params.page;
+      const findResult = await BuildsDAO.getBuildsByUser(creatorID, page);
       res.status(200).json(findResult);
     } catch (e) {}
   }
@@ -60,7 +62,6 @@ class BuildsController {
     try {
       const buildID = req.params.buildid;
       const deleteResult = await BuildsDAO.deleteBuild(buildID);
-      console.log(deleteResult);
       if (deleteResult.success !== true) {
         res.status(500).json({ error: 'Internal error, please try again later' });
       }
