@@ -1,4 +1,5 @@
 const ObjectId = require('mongodb').ObjectID;
+
 let builds;
 
 class BuildsDAO {
@@ -33,7 +34,7 @@ class BuildsDAO {
         abilitiesProgression: buildBody.abilitiesProgression,
         abilitiesProgressionDescription: buildBody.abilitiesProgressionDescription,
         threats: buildBody.threats,
-        introduction: buildBody.introduction
+        introduction: buildBody.introduction,
       });
       return { success: true };
     } catch (e) {
@@ -46,7 +47,7 @@ class BuildsDAO {
     try {
       await builds.update(
         {
-          _id: ObjectId(buildBody._id)
+          _id: ObjectId(buildBody._id),
         },
         {
           userUID: buildBody.userUID,
@@ -67,10 +68,13 @@ class BuildsDAO {
           itemsDescription: buildBody.itemsDescription,
           abilitiesProgression: buildBody.abilitiesProgression,
           abilitiesProgressionDescription: buildBody.abilitiesProgressionDescription,
-          threats: buildBody.threats
+          threats: buildBody.threats,
         }
       );
-    } catch (e) {}
+      return { success: true };
+    } catch (e) {
+      return { e };
+    }
   }
 
   static async getBuildById(id) {
@@ -87,7 +91,7 @@ class BuildsDAO {
       _id: 1,
       champion: 1,
       name: 1,
-      patch: 1
+      patch: 1,
     };
     try {
       const findResult = await builds
@@ -109,7 +113,7 @@ class BuildsDAO {
         userUID: 1,
         champion: 1,
         name: 1,
-        patch: 1
+        patch: 1,
       };
       const findResult = await builds
         .find(filter)

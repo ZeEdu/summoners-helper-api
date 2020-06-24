@@ -13,17 +13,23 @@ class UsersDAO {
   }
 
   static async getUserByEmail(email) {
-    return user.findOne({ email: email });
+    return user.findOne({ email });
   }
 
   static async getUserByUsername(username) {
-    return user.findOne({ username: username });
+    return user.findOne({ username });
   }
+
   static async getUserByUID(useruid) {
     return user.findOne({ userUID: useruid });
   }
-  static async userIntegrity(user) {
-    return user.findOne({ email: user.email, username: user.username, userUID: user.userUID });
+
+  static async userIntegrity(userdata) {
+    return user.findOne({
+      email: userdata.email,
+      username: userdata.username,
+      userUID: userdata.userUID,
+    });
   }
 
   static async addUser(userInfo) {
@@ -32,7 +38,7 @@ class UsersDAO {
         userUID: userInfo.uid,
         username: userInfo.username,
         email: userInfo.email,
-        joined: new Date()
+        joined: new Date(),
       });
       return { success: true };
     } catch (e) {
@@ -49,7 +55,7 @@ class UsersDAO {
       await user.deleteOne({
         userUID: userInfo.uid,
         username: userInfo.username,
-        email: userInfo.email
+        email: userInfo.email,
       });
       return { success: true };
     } catch (e) {

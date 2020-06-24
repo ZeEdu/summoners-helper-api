@@ -7,7 +7,6 @@ class BuildsController {
       if (!guide) {
         res.status(500).json({ error: 'Internal error, please try again later' });
       }
-      console.log(guide);
       res.status(200).json(guide);
     } catch (e) {
       console.error('Error occurred while removig the guide', e);
@@ -35,27 +34,33 @@ class BuildsController {
       const Guide = req.body;
       Guide.updatedOn = Date.now();
       Guide.patch = process.env.PATCH_VERSION;
-      const updateResult = await BuildsDAO.updateBuild(BuildFromBody);
+      const updateResult = await BuildsDAO.updateBuild(Guide);
       res.status(200).json(updateResult);
-    } catch (e) {}
+    } catch (e) {
+      res.status(400).json(e);
+    }
   }
 
   static async getBuildsByChampion(req, res) {
     try {
       const championID = req.params.championid;
-      const page = req.params.page;
+      const { page } = req.params;
       const findResult = await BuildsDAO.getBuildsByChampion(championID, page);
       res.status(200).json(findResult);
-    } catch (e) {}
+    } catch (e) {
+      res.status(400).json(e);
+    }
   }
 
   static async getBuildsByUser(req, res) {
     try {
       const creatorID = req.params.creatorid;
-      const page = req.params.page;
+      const { page } = req.params;
       const findResult = await BuildsDAO.getBuildsByUser(creatorID, page);
       res.status(200).json(findResult);
-    } catch (e) {}
+    } catch (e) {
+      res.status(400).json(e);
+    }
   }
 
   static async deleteBuild(req, res) {

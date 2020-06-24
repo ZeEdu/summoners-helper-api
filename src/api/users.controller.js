@@ -4,7 +4,7 @@ class UserCtrl {
   static async addUser(req, res) {
     try {
       const userFromBody = req.body;
-      let errors = {};
+      const errors = {};
 
       if (userFromBody.username.length <= 5) {
         errors.usernameLength = 'Username has less than 5 characters';
@@ -66,11 +66,9 @@ class UserCtrl {
   }
 
   static async getUserByUID(req, res) {
-    console.log('Entrou em getUserByUID');
-
     try {
       const UID = req.params.uid;
-      let errors = {};
+      const errors = {};
 
       const stmResult = await UsersDAO.getUserByUID(UID);
       if (stmResult == null) {
@@ -83,14 +81,14 @@ class UserCtrl {
       }
       res.status(200).json(stmResult.username);
     } catch (e) {
-      return { e };
+      res.status(400).json({ error: e });
     }
   }
 
   static async deleteUser(req, res) {
     try {
       const userData = req.body;
-      let errors = {};
+      const errors = {};
 
       const uidResult = await UsersDAO.getUserByUID(userData.uid);
       if (uidResult == null) {

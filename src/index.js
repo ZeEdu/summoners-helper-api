@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb');
-const app = require('./server');
+const app = require('./server.js');
 const UserDAO = require('./dao/usersDAO');
 const BuildsDAO = require('./dao/buildsDAO');
 

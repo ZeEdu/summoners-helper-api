@@ -5,9 +5,9 @@ const morgan = require('morgan');
 
 const checkIfAuthenticated = require('./middlewares/auth.middleware');
 
-const validations = require('../src/api/validations.route');
-const users = require('../src/api/users.route');
-const builds = require('../src/api/builds.route');
+const validations = require('./api/validations.route');
+const users = require('./api/users.route');
+const builds = require('./api/builds.route');
 
 const app = express();
 
