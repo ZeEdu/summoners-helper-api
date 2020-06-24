@@ -3,17 +3,17 @@ const app = require('./server.js');
 const UserDAO = require('./dao/usersDAO');
 const BuildsDAO = require('./dao/buildsDAO');
 
-const port = process.env.PORT || 3000;
+const port = process.env.SERVER_PORT || 3000;
 
 MongoClient.connect(process.env.SUMMONERS_DB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 })
-  .catch(err => {
+  .catch((err) => {
     console.error(err.stack);
     process.exit(1);
   })
-  .then(async client => {
+  .then(async (client) => {
     await UserDAO.injectDB(client);
     await BuildsDAO.injectDB(client);
     app.listen(port, () => {
