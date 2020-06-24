@@ -17,6 +17,6 @@ MongoClient.connect(process.env.SUMMONERS_DB_URI, {
     await UserDAO.injectDB(client);
     await BuildsDAO.injectDB(client);
     app.listen(port, () => {
-      console.log(`Listening on port ${port}`);
+      console.log(`Server is up and running`);
     });
   });
