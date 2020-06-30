@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 const admin = require('../../firebase-service');
 
 const getAuthToken = (req, _, next) => {

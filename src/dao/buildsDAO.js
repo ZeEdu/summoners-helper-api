@@ -45,30 +45,35 @@ class BuildsDAO {
 
   static async updateBuild(buildBody) {
     try {
-      await builds.update(
+      await builds.updateOne(
         {
           _id: ObjectId(buildBody._id),
         },
         {
-          userUID: buildBody.userUID,
-          name: buildBody.name,
-          champion: buildBody.champion,
-          introduction: buildBody.introduction,
-          role: buildBody.role,
-          createdOn: buildBody.createdOn,
-          updatedOn: buildBody.updatedOn,
-          patch: buildBody.patch,
-          runes: buildBody.runes,
-          runesDescription: buildBody.runesDescription,
-          bonus: buildBody.bonus,
-          bonusDescription: buildBody.bonusDescription,
-          spells: buildBody.spells,
-          spellsDescription: buildBody.spellsDescription,
-          itemsBlock: buildBody.itemsBlock,
-          itemsDescription: buildBody.itemsDescription,
-          abilitiesProgression: buildBody.abilitiesProgression,
-          abilitiesProgressionDescription: buildBody.abilitiesProgressionDescription,
-          threats: buildBody.threats,
+          $set: {
+            userUID: buildBody.userUID,
+            name: buildBody.name,
+            champion: buildBody.champion,
+            introduction: buildBody.introduction,
+            role: buildBody.role,
+            createdOn: buildBody.createdOn,
+            updatedOn: buildBody.updatedOn,
+            patch: buildBody.patch,
+            runes: buildBody.runes,
+            runesDescription: buildBody.runesDescription,
+            bonus: buildBody.bonus,
+            bonusDescription: buildBody.bonusDescription,
+            spells: buildBody.spells,
+            spellsDescription: buildBody.spellsDescription,
+            itemsBlock: buildBody.itemsBlock,
+            itemsDescription: buildBody.itemsDescription,
+            abilitiesProgression: buildBody.abilitiesProgression,
+            abilitiesProgressionDescription: buildBody.abilitiesProgressionDescription,
+            threats: buildBody.threats,
+          },
+        },
+        {
+          upsert: true,
         }
       );
       return { success: true };
