@@ -20,7 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/v1/validations/', validations);
 app.use('/api/v1/users/', users);
-app.use('/api/v1/builds/', checkIfAuthenticated, builds);
+// app.use('/api/v1/builds/', checkIfAuthenticated, builds);
+app.use('/api/v1/builds/', builds);
 app.use('/', (_, res) => res.status(200).json({ status: 'Server is Running' }));
 app.use('*', (_, res) => res.status(404).json({ error: 'not found' }));
 
