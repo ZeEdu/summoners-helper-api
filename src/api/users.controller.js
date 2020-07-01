@@ -54,10 +54,12 @@ class UserCtrl {
    }
 
    static async getUserByUID(req, res) {
+      console.log('Entrou aqui');
       try {
          const UID = req.params.uid;
          const errors = {};
          const stmResult = await UsersDAO.getUserByUID(UID);
+         console.log(stmResult);
          if (stmResult == null) {
             errors.message = 'Username not found';
          }
