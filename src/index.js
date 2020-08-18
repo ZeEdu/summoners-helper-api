@@ -5,7 +5,17 @@ const BuildsDAO = require('./dao/buildsDAO');
 
 const port = process.env.PORT || 3000;
 
-MongoClient.connect(process.env.SUMMONERS_DB_URI, {
+const dbUri =
+   process.env.PRODUCTION === 'true'
+      ? process.env.PROD_SUMMONERS_DB_URI
+      : process.env.SUMMONERS_DB_URI;
+
+const startupMessage =
+   process.env.PRODUCTION === 'true'
+      ? `Server is up and running at port: ${port} (production mode)`
+      : `Server is up and running at port: ${port} (developer mode)`;
+
+MongoClient.connect(dbUri, {
    useNewUrlParser: true,
    useUnifiedTopology: true,
 })
@@ -17,6 +27,6 @@ MongoClient.connect(process.env.SUMMONERS_DB_URI, {
       await UserDAO.injectDB(client);
       await BuildsDAO.injectDB(client);
       app.listen(port, () => {
-         console.log(`Server is up and running at port:${port}`);
+         console.log(startupMessage);
       });
    });
