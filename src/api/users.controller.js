@@ -1,3 +1,5 @@
+const admin = require('firebase-admin');
+
 const UsersDAO = require('../dao/usersDAO');
 
 class UserCtrl {
@@ -76,9 +78,9 @@ class UserCtrl {
 
    static async getUserByUID(req, res) {
       try {
-         const UID = req.params.uid;
+         const { uid } = req.params;
          const errors = {};
-         const stmResult = await UsersDAO.getUserByUID(UID);
+         const stmResult = await UsersDAO.getUserByUID(uid);
          if (stmResult == null) {
             errors.message = 'Username not found';
          }
@@ -94,25 +96,27 @@ class UserCtrl {
 
    static async deleteUser(req, res) {
       try {
-         const userData = req.body;
+         const { uid } = req.params;
          const errors = {};
-         const uidResult = await UsersDAO.getUserByUID(userData.uid);
+         const userRecord = await (await admin.auth().getUser(uid)).toJSON();
+         const { email } = userRecord;
+
+         const uidResult = await UsersDAO.getUserByUID(uid);
          if (uidResult == null) {
             errors.uid = 'UID does not exist in the database';
          }
-         const usernameResult = await UsersDAO.getUserByUsername(userData.username);
-         if (usernameResult == null) {
-            errors.username = 'Username does not exist in the database';
-         }
-         const emailResult = await UsersDAO.getUserByEmail(userData.email);
+
+         const emailResult = await UsersDAO.getUserByEmail(email);
          if (emailResult == null) {
             errors.email = 'Email does not exist in the database';
          }
+
          if (Object.keys(errors) > 0) {
             res.status(400).json(errors);
             return;
          }
-         await UsersDAO.deleteUser(userData);
+         await admin.auth().deleteUser(uid);
+         await UsersDAO.deleteUser(uid, email);
          res.status(200).json({ deleted: true });
       } catch (e) {
          res.status(400).json({ err: e });

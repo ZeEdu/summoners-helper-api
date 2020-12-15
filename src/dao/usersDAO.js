@@ -54,12 +54,11 @@ class UsersDAO {
       return user.findOne({ userUID: uid });
    }
 
-   static async deleteUser(userInfo) {
+   static async deleteUser(uid, email) {
       try {
          await user.deleteOne({
-            userUID: userInfo.uid,
-            username: userInfo.username,
-            email: userInfo.email,
+            userUID: uid,
+            email: email,
          });
          return { success: true };
       } catch (e) {

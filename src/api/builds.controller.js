@@ -54,12 +54,26 @@ class BuildsController {
 
    static async getBuildsByUser(req, res) {
       try {
-         const creatorID = req.params.creatorid;
+         const { creatorID } = req.params;
          const { page } = req.params;
          const findResult = await BuildsDAO.getBuildsByUser(creatorID, page);
          res.status(200).json(findResult);
       } catch (e) {
          res.status(400).json(e);
+      }
+   }
+
+   static async deleteBuildsByUID(req, res) {
+      try {
+         const { uid } = req.params;
+         const deleteResult = await BuildsDAO.deleteBuildsFromUser(uid);
+         if (deleteResult.success !== true) {
+            res.status(500).json({ error: 'Internal error, please try again later' });
+         }
+         res.status(200).json({ deleteResult });
+      } catch (e) {
+         console.error('Error occurred while removig the guide', e);
+         res.status(400).json({ error: e });
       }
    }
 

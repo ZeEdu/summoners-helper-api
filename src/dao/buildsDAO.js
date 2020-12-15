@@ -141,6 +141,16 @@ class BuildsDAO {
          return { error: e };
       }
    }
+
+   static async deleteBuildsFromUser(uid) {
+      try {
+         await builds.deleteMany({ userUID: uid });
+         return { success: true };
+      } catch (e) {
+         console.error(`Error occurred while removig the guide, ${e}`);
+         return { error: e };
+      }
+   }
 }
 
 module.exports = BuildsDAO;

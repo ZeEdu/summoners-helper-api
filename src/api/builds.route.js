@@ -9,6 +9,7 @@ router.route('/getbuildsbyuser/:creatorid/:page').get(BuildsController.getBuilds
 router.route('/getbuildbyid/:id').get(BuildsController.getBuildById);
 router.route('/addbuild').post(BuildsController.addBuild);
 router.route('/updatebuild').put(BuildsController.updateBuild);
+router.route('/deletebuilds/:uid').delete(BuildsController.deleteBuildsByUID);
 router.route('/deletebuild/:buildid').delete(BuildsController.deleteBuild);
 
 module.exports = router;
