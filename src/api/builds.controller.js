@@ -54,9 +54,9 @@ class BuildsController {
 
    static async getBuildsByUser(req, res) {
       try {
-         const { creatorID } = req.params;
-         const { page } = req.params;
-         const findResult = await BuildsDAO.getBuildsByUser(creatorID, page);
+         const { creatoruid, page } = req.params;
+         console.log('User UID', creatoruid);
+         const findResult = await BuildsDAO.getBuildsByUser(creatoruid, page);
          res.status(200).json(findResult);
       } catch (e) {
          res.status(400).json(e);

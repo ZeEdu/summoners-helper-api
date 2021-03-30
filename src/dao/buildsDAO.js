@@ -90,8 +90,8 @@ class BuildsDAO {
       }
    }
 
-   static async getBuildsByUser(creatorID, page) {
-      const filter = { userUID: creatorID };
+   static async getBuildsByUser(uid, page) {
+      const filter = { userUID: uid };
       const projection = {
          _id: 1,
          champion: 1,

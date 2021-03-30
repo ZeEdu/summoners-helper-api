@@ -2,6 +2,7 @@ const MongoClient = require('mongodb');
 const app = require('./server.js');
 const UserDAO = require('./dao/usersDAO');
 const BuildsDAO = require('./dao/buildsDAO');
+const ChampionDataDAO = require('./dao/championDataDAO');
 
 const port = process.env.PORT || 3000;
 
@@ -26,6 +27,7 @@ MongoClient.connect(dbUri, {
    .then(async (client) => {
       await UserDAO.injectDB(client);
       await BuildsDAO.injectDB(client);
+      await ChampionDataDAO.injectDB(client);
       app.listen(port, () => {
          console.log(startupMessage);
       });
