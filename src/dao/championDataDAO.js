@@ -12,6 +12,34 @@ class ChampionDataDAO {
       }
    }
 
+   static async getThreats(threats) {
+      const query = {
+         id: {
+            $in: threats,
+         },
+      };
+
+      const projection = {
+         _id: 0,
+         id: 1,
+         name: 1,
+         image: 1,
+         title: 1,
+      };
+      try {
+         const findResult = championsData
+            .find(query)
+            .project(projection)
+            .sort({ name: 1 })
+            .limit(10);
+
+         return findResult.toArray();
+      } catch (e) {
+         console.error(`Error occurred while fetching requested data, ${e}`);
+         return { error: e };
+      }
+   }
+
    static async getChampions(page) {
       const projection = {
          _id: 0,
