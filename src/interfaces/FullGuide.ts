@@ -28,9 +28,9 @@ export interface IGuide {
    threats: Threat[];
 }
 export interface Bonus {
-   slotOne: string;
-   slotTwo: string;
-   slotThree: string;
+   slotOne: BonusItem;
+   slotTwo: BonusItem;
+   slotThree: BonusItem;
 }
 
 export interface BonusItem {
