@@ -1,6 +1,15 @@
 const BuildsDAO = require('../dao/buildsDAO');
 
 class BuildsController {
+   static async getFullGuideById(req, res) {
+      try {
+         res.status(200).json({ message: 'Sucess' });
+      } catch (e) {
+         console.error('Error occurred while removig the guide', e);
+         res.status(400).json({ error: e });
+      }
+   }
+
    static async getBuildById(req, res) {
       try {
          const guide = await BuildsDAO.getBuildById(req.params.id);
