@@ -1,6 +1,6 @@
 import express from 'express';
 
-import ValidationCtrl from './validations.controller';
+import ValidationCtrl from '../controllers/validations.controller';
 
 const router = express.Router();
 

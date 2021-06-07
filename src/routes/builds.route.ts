@@ -1,6 +1,6 @@
 import express from 'express';
 
-import BuildsController from './builds.controller';
+import BuildsController from '../controllers/builds.controller';
 
 const router = express.Router();
 

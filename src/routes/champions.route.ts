@@ -1,6 +1,6 @@
 import express from 'express';
 
-import ChampionsController from './champions.controller';
+import ChampionsController from '../controllers/champions.controller';
 
 const router = express.Router();
 

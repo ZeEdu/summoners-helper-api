@@ -6,10 +6,10 @@ import morgan from 'morgan';
 
 import checkIfAuthenticated from './middlewares/auth.middleware';
 
-import validations from './api/validations.route';
-import users from './api/users.route';
-import builds from './api/builds.route';
-import champions from './api/champions.route';
+import validations from './routes/validations.route';
+import users from './routes/users.route';
+import builds from './routes/builds.route';
+import champions from './routes/champions.route';
 
 const app = express();
 
