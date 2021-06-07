@@ -1,10 +1,11 @@
-const UsersDAO = require('../dao/usersDAO');
+import { Request, Response } from 'express';
+import UsersDAO from '../dao/usersDAO';
 
 class ValidationCtrl {
-   static async checkemail(req, res) {
+   static async checkemail(req: Request, res: Response) {
       try {
          const qrryRes = await UsersDAO.getUserByEmail(req.params.email);
-         if (qrryRes == null) {
+         if (qrryRes === null) {
             res.status(200).json({});
          } else {
             res.status(200).json({ message: true });
@@ -14,10 +15,10 @@ class ValidationCtrl {
       }
    }
 
-   static async checkusername(req, res) {
+   static async checkusername(req: Request, res: Response) {
       try {
          const qrryRes = await UsersDAO.getUserByUsername(req.params.username);
-         if (qrryRes == null) {
+         if (qrryRes === null) {
             res.status(200).json({});
          } else {
             res.status(200).json({ message: true });
@@ -28,4 +29,4 @@ class ValidationCtrl {
    }
 }
 
-module.exports = ValidationCtrl;
+export default ValidationCtrl;

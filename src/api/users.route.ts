@@ -1,12 +1,12 @@
-const Router = require('express');
+import express from 'express';
 
-const UserCtrl = require('./users.controller');
+import UserCtrl from './users.controller';
 
-const router = new Router();
+const router = express.Router();
 
 router.route('/createprofile').post(UserCtrl.createProfile);
 router.route('/getprofilebyuid/:uid').get(UserCtrl.getProfileByUID);
 router.route('/deleteuser/:uid').delete(UserCtrl.deleteUser);
 router.route('/getuserbyuid/:uid').get(UserCtrl.getUserByUID);
 
-module.exports = router;
+export default router;

@@ -1,7 +1,7 @@
-let user;
+let user: any;
 
 class UsersDAO {
-   static async injectDB(conn) {
+   static async injectDB(conn: any) {
       if (user) {
          return;
       }
@@ -12,19 +12,19 @@ class UsersDAO {
       }
    }
 
-   static async getUserByEmail(email) {
+   static async getUserByEmail(email: string) {
       return user.findOne({ email });
    }
 
-   static async getUserByUsername(username) {
+   static async getUserByUsername(username: string) {
       return user.findOne({ username });
    }
 
-   static async getUserByUID(useruid) {
+   static async getUserByUID(useruid: string) {
       return user.findOne({ userUID: useruid });
    }
 
-   static async userIntegrity(userdata) {
+   static async userIntegrity(userdata: any) {
       return user.findOne({
          email: userdata.email,
          username: userdata.username,
@@ -32,7 +32,7 @@ class UsersDAO {
       });
    }
 
-   static async createProfile(userInfo) {
+   static async createProfile(userInfo: any) {
       try {
          await user.insertOne({
             userUID: userInfo.uid,
@@ -50,11 +50,11 @@ class UsersDAO {
       }
    }
 
-   static async getProfileByUID(uid) {
+   static async getProfileByUID(uid: string) {
       return user.findOne({ userUID: uid });
    }
 
-   static async deleteUser(uid, email) {
+   static async deleteUser(uid: string, email: string) {
       try {
          await user.deleteOne({
             userUID: uid,
@@ -68,4 +68,4 @@ class UsersDAO {
    }
 }
 
-module.exports = UsersDAO;
+export default UsersDAO;

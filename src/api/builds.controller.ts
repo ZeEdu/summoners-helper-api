@@ -1,7 +1,9 @@
-const BuildsDAO = require('../dao/buildsDAO');
+import { Request, Response } from 'express';
+
+import BuildsDAO from '../dao/buildsDAO';
 
 class BuildsController {
-   static async getFullGuideById(req, res) {
+   static async getFullGuideById(req: Request, res: Response) {
       try {
          res.status(200).json({ message: 'Sucess' });
       } catch (e) {
@@ -10,7 +12,7 @@ class BuildsController {
       }
    }
 
-   static async getBuildById(req, res) {
+   static async getBuildById(req: Request, res: Response) {
       try {
          const guide = await BuildsDAO.getBuildById(req.params.id);
          if (!guide) {
@@ -23,7 +25,7 @@ class BuildsController {
       }
    }
 
-   static async addBuild(req, res) {
+   static async addBuild(req: Request, res: Response) {
       try {
          const Guide = req.body;
          Guide.createdOn = Date.now();
@@ -38,7 +40,7 @@ class BuildsController {
       }
    }
 
-   static async updateBuild(req, res) {
+   static async updateBuild(req: Request, res: Response) {
       try {
          const Guide = req.body;
          Guide.updatedOn = Date.now();
@@ -50,29 +52,29 @@ class BuildsController {
       }
    }
 
-   static async getBuildsByChampion(req, res) {
+   static async getBuildsByChampion(req: Request, res: Response) {
       try {
          const championID = req.params.championid;
          const { page } = req.params;
-         const findResult = await BuildsDAO.getBuildsByChampion(championID, page);
+         const findResult = await BuildsDAO.getBuildsByChampion(championID, Number(page));
          res.status(200).json(findResult);
       } catch (e) {
          res.status(400).json(e);
       }
    }
 
-   static async getBuildsByUser(req, res) {
+   static async getBuildsByUser(req: Request, res: Response) {
       try {
          const { creatoruid, page } = req.params;
          console.log('User UID', creatoruid);
-         const findResult = await BuildsDAO.getBuildsByUser(creatoruid, page);
+         const findResult = await BuildsDAO.getBuildsByUser(creatoruid, Number(page));
          res.status(200).json(findResult);
       } catch (e) {
          res.status(400).json(e);
       }
    }
 
-   static async deleteBuildsByUID(req, res) {
+   static async deleteBuildsByUID(req: Request, res: Response) {
       try {
          const { uid } = req.params;
          const deleteResult = await BuildsDAO.deleteBuildsFromUser(uid);
@@ -86,7 +88,7 @@ class BuildsController {
       }
    }
 
-   static async deleteBuild(req, res) {
+   static async deleteBuild(req: Request, res: Response) {
       try {
          const buildID = req.params.buildid;
          const deleteResult = await BuildsDAO.deleteBuild(buildID);
@@ -100,4 +102,4 @@ class BuildsController {
       }
    }
 }
-module.exports = BuildsController;
+export default BuildsController;

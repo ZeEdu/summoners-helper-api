@@ -1,9 +1,9 @@
 const ObjectId = require('mongodb').ObjectID;
 
-let builds;
+let builds: any;
 
 class BuildsDAO {
-   static async injectDB(conn) {
+   static async injectDB(conn: any) {
       if (builds) {
          return;
       }
@@ -14,7 +14,7 @@ class BuildsDAO {
       }
    }
 
-   static async addBuild(buildBody) {
+   static async addBuild(buildBody: any) {
       try {
          await builds.insertOne({
             userUID: buildBody.userUID,
@@ -43,7 +43,7 @@ class BuildsDAO {
       }
    }
 
-   static async updateBuild(buildBody) {
+   static async updateBuild(buildBody: any) {
       try {
          await builds.updateOne(
             {
@@ -82,7 +82,7 @@ class BuildsDAO {
       }
    }
 
-   static async getBuildById(id) {
+   static async getBuildById(id: string) {
       try {
          return builds.findOne({ _id: new ObjectId(id) });
       } catch (e) {
@@ -90,7 +90,7 @@ class BuildsDAO {
       }
    }
 
-   static async getBuildsByUser(uid, page) {
+   static async getBuildsByUser(uid: string, page: number) {
       const filter = { userUID: uid };
       const projection = {
          _id: 1,
@@ -110,7 +110,7 @@ class BuildsDAO {
       }
    }
 
-   static async getBuildsByChampion(championID, page) {
+   static async getBuildsByChampion(championID: string, page: number) {
       try {
          const filter = { champion: championID };
          const projection = {
@@ -131,7 +131,7 @@ class BuildsDAO {
       }
    }
 
-   static async deleteBuild(buildID) {
+   static async deleteBuild(buildID: string) {
       try {
          const id = new ObjectId(buildID);
          await builds.deleteOne({ _id: id });
@@ -142,7 +142,7 @@ class BuildsDAO {
       }
    }
 
-   static async deleteBuildsFromUser(uid) {
+   static async deleteBuildsFromUser(uid: string) {
       try {
          await builds.deleteMany({ userUID: uid });
          return { success: true };
@@ -153,4 +153,4 @@ class BuildsDAO {
    }
 }
 
-module.exports = BuildsDAO;
+export default BuildsDAO;

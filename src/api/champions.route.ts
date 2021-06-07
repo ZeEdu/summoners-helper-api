@@ -1,11 +1,12 @@
-const Router = require('express');
+import express from 'express';
 
-const ChampionsController = require('./champions.controller');
+import ChampionsController from './champions.controller';
 
-const router = new Router();
+const router = express.Router();
 
 router.route('/data/:page').get(ChampionsController.getChampionsHeader);
 router.route('/data/threats/:id').get(ChampionsController.getChampionsThreats);
 router.route('/data/list').get(ChampionsController.getChampionsList);
+router.route('/data/champion/:id').get(ChampionsController.getChampionInfo);
 
-module.exports = router;
+export default router;

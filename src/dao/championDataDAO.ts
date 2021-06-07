@@ -1,7 +1,7 @@
-let championsData;
+let championsData: any;
 
 class ChampionDataDAO {
-   static async injectDB(conn) {
+   static async injectDB(conn: any) {
       if (championsData) {
          return;
       }
@@ -12,7 +12,19 @@ class ChampionDataDAO {
       }
    }
 
-   static async getThreats(threats) {
+   static async getChampion(id: string) {
+      const query = {
+         id: id,
+      };
+      try {
+         return championsData.findOne(query);
+      } catch (err) {
+         console.error(`Error occurred while fetching requested data, ${err}`);
+         return { error: err };
+      }
+   }
+
+   static async getThreats(threats: any) {
       const query = {
          id: {
             $in: threats,
@@ -40,7 +52,7 @@ class ChampionDataDAO {
       }
    }
 
-   static async getChampions(page) {
+   static async getChampions(page: number) {
       const projection = {
          _id: 0,
          id: 1,
@@ -62,4 +74,4 @@ class ChampionDataDAO {
       }
    }
 }
-module.exports = ChampionDataDAO;
+export default ChampionDataDAO;

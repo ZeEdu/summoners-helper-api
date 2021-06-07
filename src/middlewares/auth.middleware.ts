@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
-const admin = require('../../firebase-service');
+import admin from '../firebase-service';
 
-const getAuthToken = (req, _, next) => {
+const getAuthToken = (req: any, _: any, next: any) => {
    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
       req.authToken = req.headers.authorization.split(' ')[1];
    } else {
@@ -10,7 +10,7 @@ const getAuthToken = (req, _, next) => {
    next();
 };
 
-module.exports = function checkIfAuthenticated(req, res, next) {
+export default function checkIfAuthenticated(req: any, res: any, next: any) {
    getAuthToken(req, res, async () => {
       try {
          const { authToken } = req;
@@ -21,4 +21,4 @@ module.exports = function checkIfAuthenticated(req, res, next) {
          return res.status(401).send({ error: 'You are not authorized' });
       }
    });
-};
+}

@@ -1,10 +1,10 @@
-const Router = require('express');
+import express from 'express';
 
-const ValidationCtrl = require('./validations.controller');
+import ValidationCtrl from './validations.controller';
 
-const router = new Router();
+const router = express.Router();
 
 router.route('/isemailtaken/:email').get(ValidationCtrl.checkemail);
 router.route('/isusernametaken/:username').get(ValidationCtrl.checkusername);
 
-module.exports = router;
+export default router;

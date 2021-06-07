@@ -1,8 +1,8 @@
-const Router = require('express');
+import express from 'express';
 
-const BuildsController = require('./builds.controller');
+import BuildsController from './builds.controller';
 
-const router = new Router();
+const router = express.Router();
 
 router.route('/getbuildsbychampion/:championid/:page').get(BuildsController.getBuildsByChampion);
 router.route('/getbuildsbyuser/:creatoruid/:page').get(BuildsController.getBuildsByUser);
@@ -14,4 +14,4 @@ router.route('/updatebuild').put(BuildsController.updateBuild);
 router.route('/deletebuilds/:uid').delete(BuildsController.deleteBuildsByUID);
 router.route('/deletebuild/:buildid').delete(BuildsController.deleteBuild);
 
-module.exports = router;
+export default router;
