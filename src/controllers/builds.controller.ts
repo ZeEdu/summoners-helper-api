@@ -7,7 +7,9 @@ import BuildsDAO from '../dao/buildsDAO';
 import { IGuide } from '../interfaces/Guide';
 import UsersDAO from '../dao/usersDAO';
 import { UserProfile } from '../interfaces/UserProfile';
-import { RunesReforged } from '../interfaces/RunesReforgedJSON';
+import { Rune, RunesReforged } from '../interfaces/RunesReforgedJSON';
+import { SummonerJSON } from '../interfaces/SummonerJSON';
+import { ItemJSON } from '../interfaces/ItemJSON';
 
 class BuildsController {
    static async getFullGuideById(req: Request, res: Response) {
@@ -24,10 +26,69 @@ class BuildsController {
             'utf8'
          );
          const parsedRunes: RunesReforged[] = JSON.parse(rawRunes);
-         console.log(guide.runes.primaryRune);
-         const primaryRune = parsedRunes.find((item) => item.key === guide.runes.primaryRune);
 
-         res.status(200).json(parsedRunes);
+         const primaryRune = parsedRunes.find((item) => item.key === guide.runes.primaryRune);
+         const secondaryRune = parsedRunes.find((item) => item.key === guide.runes.secondaryRune);
+         let allPrimaryRunes: Rune[] = [];
+         let allSecondaryRunes: Rune[] = [];
+
+         if (primaryRune) {
+            primaryRune.slots.forEach((item) => {
+               allPrimaryRunes = [...allPrimaryRunes, ...item.runes];
+            });
+         }
+
+         if (secondaryRune) {
+            secondaryRune.slots.forEach((item) => {
+               allSecondaryRunes = [...allSecondaryRunes, ...item.runes];
+            });
+         }
+
+         const primaryRunesObj: { [key: string]: Rune } = allPrimaryRunes.reduce(
+            (obj, item) => ({ ...obj, [item['key']]: item }),
+            {}
+         );
+
+         const secondaryRunesObj: { [key: string]: Rune } = allSecondaryRunes.reduce(
+            (obj, item) => ({ ...obj, [item['key']]: item }),
+            {}
+         );
+
+         const firstPrimary = primaryRunesObj[guide.runes.primarySlots.first];
+
+         const secondPrimary = primaryRunesObj[guide.runes.primarySlots.second];
+
+         const thirdPrimary = primaryRunesObj[guide.runes.primarySlots.third];
+
+         if (guide.runes.primarySlots.fourth) {
+            const fourthPrimary = primaryRunesObj[guide.runes.primarySlots.fourth];
+         }
+
+         const firstSecondary = secondaryRunesObj[guide.runes.secondarySlots.first];
+
+         const secondSecondary = secondaryRunesObj[guide.runes.secondarySlots.second];
+
+         const thirdSecondary = secondaryRunesObj[guide.runes.secondarySlots.third];
+
+         const rawSummoner = fs.readFileSync(
+            path.join(__dirname.split('src')[0], 'public/10.7.1/data/en_US/summoner.json'),
+            'utf8'
+         );
+
+         const parsedSummoner: SummonerJSON = JSON.parse(rawSummoner);
+
+         const firstSpell = parsedSummoner.data[guide.spells.first];
+         const secondSpell = parsedSummoner.data[guide.spells.second];
+
+         const rawItemsJSON = fs.readFileSync(
+            path.join(__dirname.split('src')[0], 'public/10.7.1/data/en_US/item.json'),
+            'utf8'
+         );
+         const parsedItems: ItemJSON = JSON.parse(rawItemsJSON);
+
+         res.status(200).json(guide.itemsBlock[0].itemArray[0].item);
+
+         //  res.status(200).json({ message: 'success' });
       } catch (e) {
          console.error('Error occurred while removig the guide', e);
          res.status(400).json({ error: e });
