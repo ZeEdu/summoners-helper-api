@@ -1,10 +1,11 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
 
-import admin from 'firebase-admin';
+import * as admin from 'firebase-admin';
 require('dotenv').config();
 
 let serviceAccount: string | admin.ServiceAccount;
+
 if (process.env.PRODUCTION === 'true') {
    if (process.env.PROD_GOOGLE_APPLICATION_CREDENTIALS) {
       serviceAccount = require(process.env.PROD_GOOGLE_APPLICATION_CREDENTIALS);

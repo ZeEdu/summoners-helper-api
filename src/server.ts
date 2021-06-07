@@ -21,7 +21,8 @@ app.use(express.static('public'));
 
 app.use('/api/v1/validations/', validations);
 app.use('/api/v1/users/', users);
-app.use('/api/v1/builds/', checkIfAuthenticated, builds);
+// app.use('/api/v1/builds/', checkIfAuthenticated, builds);
+app.use('/api/v1/builds/', builds);
 // app.use('/api/v1/champions/', checkIfAuthenticated, champions);
 app.use('/api/v1/champions/', champions);
 app.use('/', (_: Request, res: Response) => res.status(200).json({ status: 'Server is Running' }));

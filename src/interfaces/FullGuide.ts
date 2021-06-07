@@ -1,4 +1,4 @@
-export interface IGuide {
+export interface IFullGuide {
    // Intro
    _id?: string;
    introduction: string;
