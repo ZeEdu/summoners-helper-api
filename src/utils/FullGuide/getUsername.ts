@@ -1,5 +1,5 @@
-import UsersDAO from '../dao/usersDAO';
-import { UserProfile } from '../interfaces/UserProfile';
+import UsersDAO from '../../dao/usersDAO';
+import { UserProfile } from '../../interfaces/UserProfile';
 
 export const getUsername = async (uid: string) => {
    try {

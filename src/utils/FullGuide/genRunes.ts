@@ -1,15 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import { Runes } from '../interfaces/Guide';
-import { Rune, RunesReforged } from '../interfaces/RunesReforgedJSON';
+import { Runes } from '../../interfaces/Guide';
+import { Rune, RunesReforged } from '../../interfaces/RunesReforgedJSON';
+import getFromRawJSON from '../getFromRawJSON';
 
 export const genRunes = (runes: Runes) => {
    try {
-      const rawRunes = fs.readFileSync(
-         path.join(__dirname.split('src')[0], 'public/10.7.1/data/en_US/runesReforged.json'),
-         'utf8'
-      );
-      const parsedRunes: RunesReforged[] = JSON.parse(rawRunes);
+      const parsedRunes = getFromRawJSON('RunesReforged') as RunesReforged[];
 
       const primaryRune = parsedRunes.find((item) => item.key === runes.primaryRune);
       const secondaryRune = parsedRunes.find((item) => item.key === runes.secondaryRune);

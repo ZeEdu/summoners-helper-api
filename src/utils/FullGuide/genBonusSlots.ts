@@ -1,5 +1,5 @@
-import { BonusSlot } from '../interfaces/BonusSlot';
-import { Bonus } from '../interfaces/Guide';
+import { BonusSlot } from '../../interfaces/BonusSlot';
+import { Bonus } from '../../interfaces/Guide';
 import bonusMap from './bonusMap';
 
 export const genBonusSlots = (bonus: Bonus) => {

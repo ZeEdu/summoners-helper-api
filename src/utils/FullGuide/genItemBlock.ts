@@ -1,15 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import { Items } from '../interfaces/Guide';
-import { ItemJSON } from '../interfaces/ItemJSON';
+import { Items } from '../../interfaces/Guide';
+import { ItemJSON } from '../../interfaces/ItemJSON';
+import getFromRawJSON from '../getFromRawJSON';
 
 export const genItemBlock = (itemsBlock: Items[]) => {
    try {
-      const rawItemsJSON = fs.readFileSync(
-         path.join(__dirname.split('src')[0], 'public/10.7.1/data/en_US/item.json'),
-         'utf8'
-      );
-      const parsedItems: ItemJSON = JSON.parse(rawItemsJSON);
+      const parsedItems = getFromRawJSON('item') as ItemJSON;
 
       return itemsBlock.map((block) => ({
          itemRollName: block.itemRollName,

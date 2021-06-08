@@ -1,16 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-
-import { Spells } from '../interfaces/Guide';
-import { SummonerJSON } from '../interfaces/SummonerJSON';
+import { Spells } from '../../interfaces/Guide';
+import { SummonerJSON } from '../../interfaces/SummonerJSON';
+import getFromRawJSON from '../getFromRawJSON';
 
 export const genSpells = (spells: Spells) => {
    try {
-      const rawSummoner = fs.readFileSync(
-         path.join(__dirname.split('src')[0], 'public/10.7.1/data/en_US/summoner.json'),
-         'utf8'
-      );
-      const parsedSummoner: SummonerJSON = JSON.parse(rawSummoner);
+      const parsedSummoner = getFromRawJSON('summoner') as SummonerJSON;
       return {
          first: {
             name: parsedSummoner.data[spells.first].name,

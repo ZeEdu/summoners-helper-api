@@ -5,15 +5,38 @@ import BuildsDAO from '../dao/buildsDAO';
 import { IGuide } from '../interfaces/Guide';
 
 import { IFullGuide } from '../interfaces/FullGuide';
-
-import { getUsername } from '../utils/getUsername';
-import { genItemBlock } from '../utils/genItemBlock';
-
-import { genBonusSlots } from '../utils/genBonusSlots';
-import { genSpells } from '../utils/genSpells';
-import { genRunes } from '../utils/genRunes';
+import { getUsername } from '../utils/FullGuide/getUsername';
+import { genItemBlock } from '../utils/FullGuide/genItemBlock';
+import { genBonusSlots } from '../utils/FullGuide/genBonusSlots';
+import { genSpells } from '../utils/FullGuide/genSpells';
+import { genRunes } from '../utils/FullGuide/genRunes';
+import genChampionList from '../utils/GuideForm/genChampionList';
+import { GuideFormStaticData } from '../interfaces/GuideFormStaticData';
+import genPaths from '../utils/GuideForm/genPaths';
 
 class BuildsController {
+   static async getGuideFormStaticData(req: Request, res: Response) {
+      // Get Champion List
+
+      // Get Rune Paths
+      // Get Spells
+      // Get Items
+
+      try {
+         const staticData: GuideFormStaticData = {
+            champions: genChampionList(),
+						paths: genPaths(),
+						spells: ,
+						items: ,
+         };
+
+         res.status(200).json({ message: 'hello world' });
+      } catch (error) {
+         console.error('Error occurred:', error);
+         res.status(400).json({ error: error });
+      }
+   }
+
    static async getFullGuideById(req: Request, res: Response) {
       const guideId = req.params.id;
       try {
@@ -40,7 +63,6 @@ class BuildsController {
    static async getBuildById(req: Request, res: Response) {
       try {
          const guide: IGuide = await BuildsDAO.getBuildById(req.params.id);
-
          if (!guide) {
             res.status(500).json({ error: 'Internal error, please try again later' });
          }
