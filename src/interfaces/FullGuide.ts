@@ -104,6 +104,5 @@ export interface Rune {
 
 export interface Threat {
    threat: string;
-   iamge: string;
    description: string;
 }

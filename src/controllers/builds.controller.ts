@@ -1,15 +1,17 @@
 import { Request, Response } from 'express';
 import admin from '../firebase-service';
-import fs from 'fs';
-import path from 'path';
 
 import BuildsDAO from '../dao/buildsDAO';
 import { IGuide } from '../interfaces/Guide';
-import UsersDAO from '../dao/usersDAO';
-import { UserProfile } from '../interfaces/UserProfile';
-import { Rune, RunesReforged } from '../interfaces/RunesReforgedJSON';
-import { SummonerJSON } from '../interfaces/SummonerJSON';
-import { ItemJSON } from '../interfaces/ItemJSON';
+
+import { IFullGuide } from '../interfaces/FullGuide';
+
+import { getUsername } from '../utils/getUsername';
+import { genItemBlock } from '../utils/genItemBlock';
+
+import { genBonusSlots } from '../utils/genBonusSlots';
+import { genSpells } from '../utils/genSpells';
+import { genRunes } from '../utils/genRunes';
 
 class BuildsController {
    static async getFullGuideById(req: Request, res: Response) {
@@ -19,78 +21,18 @@ class BuildsController {
          if (!guide) {
             res.status(500).json({ error: 'Internal error, please try again later' });
          }
-         const userData: UserProfile = await UsersDAO.getProfileByUID(guide.userUID);
 
-         const rawRunes = fs.readFileSync(
-            path.join(__dirname.split('src')[0], 'public/10.7.1/data/en_US/runesReforged.json'),
-            'utf8'
-         );
-         const parsedRunes: RunesReforged[] = JSON.parse(rawRunes);
-
-         const primaryRune = parsedRunes.find((item) => item.key === guide.runes.primaryRune);
-         const secondaryRune = parsedRunes.find((item) => item.key === guide.runes.secondaryRune);
-         let allPrimaryRunes: Rune[] = [];
-         let allSecondaryRunes: Rune[] = [];
-
-         if (primaryRune) {
-            primaryRune.slots.forEach((item) => {
-               allPrimaryRunes = [...allPrimaryRunes, ...item.runes];
-            });
-         }
-
-         if (secondaryRune) {
-            secondaryRune.slots.forEach((item) => {
-               allSecondaryRunes = [...allSecondaryRunes, ...item.runes];
-            });
-         }
-
-         const primaryRunesObj: { [key: string]: Rune } = allPrimaryRunes.reduce(
-            (obj, item) => ({ ...obj, [item['key']]: item }),
-            {}
-         );
-
-         const secondaryRunesObj: { [key: string]: Rune } = allSecondaryRunes.reduce(
-            (obj, item) => ({ ...obj, [item['key']]: item }),
-            {}
-         );
-
-         const firstPrimary = primaryRunesObj[guide.runes.primarySlots.first];
-
-         const secondPrimary = primaryRunesObj[guide.runes.primarySlots.second];
-
-         const thirdPrimary = primaryRunesObj[guide.runes.primarySlots.third];
-
-         if (guide.runes.primarySlots.fourth) {
-            const fourthPrimary = primaryRunesObj[guide.runes.primarySlots.fourth];
-         }
-
-         const firstSecondary = secondaryRunesObj[guide.runes.secondarySlots.first];
-
-         const secondSecondary = secondaryRunesObj[guide.runes.secondarySlots.second];
-
-         const thirdSecondary = secondaryRunesObj[guide.runes.secondarySlots.third];
-
-         const rawSummoner = fs.readFileSync(
-            path.join(__dirname.split('src')[0], 'public/10.7.1/data/en_US/summoner.json'),
-            'utf8'
-         );
-
-         const parsedSummoner: SummonerJSON = JSON.parse(rawSummoner);
-
-         const firstSpell = parsedSummoner.data[guide.spells.first];
-         const secondSpell = parsedSummoner.data[guide.spells.second];
-
-         const rawItemsJSON = fs.readFileSync(
-            path.join(__dirname.split('src')[0], 'public/10.7.1/data/en_US/item.json'),
-            'utf8'
-         );
-         const parsedItems: ItemJSON = JSON.parse(rawItemsJSON);
-
-         res.status(200).json(guide.itemsBlock[0].itemArray[0].item);
-
-         //  res.status(200).json({ message: 'success' });
+         const fullGuide: IFullGuide = {
+            ...guide,
+            username: await getUsername(guide.userUID),
+            itemsBlock: genItemBlock(guide.itemsBlock),
+            bonus: genBonusSlots(guide.bonus),
+            spells: genSpells(guide.spells),
+            runes: genRunes(guide.runes),
+         };
+         res.status(200).json(fullGuide);
       } catch (e) {
-         console.error('Error occurred while removig the guide', e);
+         console.error('Error occurred:', e);
          res.status(400).json({ error: e });
       }
    }
