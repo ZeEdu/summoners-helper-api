@@ -3,8 +3,22 @@ import { Request, Response } from 'express';
 import BuildsDAO from '../dao/buildsDAO';
 import ChampionDataDAO from '../dao/championDataDAO';
 import ChampionsDataDAO from '../dao/championDataDAO';
+import getChampionData from '../utils/Champions/getChampionData';
+import getChampionsList from '../utils/Champions/getChampionsList';
 
 class ChampionsController {
+   static async getChampion(req: Request, res: Response) {
+      const { id } = req.params;
+
+      try {
+         const stmRes = getChampionData(id);
+
+         res.status(200).json(stmRes);
+      } catch (err) {
+         console.error("Something went't wrong", err);
+         res.status(400).json({ error: err });
+      }
+   }
    static async getChampionInfo(req: Request, res: Response) {
       const { id } = req.params;
 
@@ -19,6 +33,7 @@ class ChampionsController {
          res.status(400).json({ error: err });
       }
    }
+
    static async getChampionsHeader(req: Request, res: Response) {
       const { page } = req.params;
       try {
@@ -34,22 +49,8 @@ class ChampionsController {
    }
 
    static async getChampionsList(req: Request, res: Response) {
-      const page = 1;
-      console.log('entrou em getChampionsList');
-      let list = [];
-
       try {
-         const stmResponse = await ChampionsDataDAO.getChampions(page);
-         list = [...stmResponse];
-
-         //  do {
-         //     championList = [...championList, ...list];
-         //     page += 1;
-         //     console.log('list.length', list.length);
-         //     console.log(championList);
-         //  } while (list.length === 20);
-
-         res.status(200).json(list);
+         res.status(200).json(getChampionsList());
       } catch (e) {
          console.error("Something went't wrong", e);
          res.status(400).json({ error: e });
