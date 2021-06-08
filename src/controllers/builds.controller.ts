@@ -13,24 +13,20 @@ import { genRunes } from '../utils/FullGuide/genRunes';
 import genChampionList from '../utils/GuideForm/genChampionList';
 import { GuideFormStaticData } from '../interfaces/GuideFormStaticData';
 import genPaths from '../utils/GuideForm/genPaths';
+import genSummonerSpells from '../utils/GuideForm/genSummonerSpells';
+import genItems from '../utils/GuideForm/genItems';
 
 class BuildsController {
    static async getGuideFormStaticData(req: Request, res: Response) {
-      // Get Champion List
-
-      // Get Rune Paths
-      // Get Spells
-      // Get Items
-
       try {
          const staticData: GuideFormStaticData = {
             champions: genChampionList(),
-						paths: genPaths(),
-						spells: ,
-						items: ,
+            paths: genPaths(),
+            spells: genSummonerSpells(),
+            items: genItems(),
          };
 
-         res.status(200).json({ message: 'hello world' });
+         res.status(200).json(staticData);
       } catch (error) {
          console.error('Error occurred:', error);
          res.status(400).json({ error: error });
