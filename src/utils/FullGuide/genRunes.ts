@@ -6,7 +6,7 @@ import getFromRawJSON from '../getFromRawJSON';
 
 export const genRunes = (runes: Runes) => {
    try {
-      const parsedRunes = getFromRawJSON('RunesReforged') as RunesReforged[];
+      const parsedRunes = getFromRawJSON('runesReforged') as RunesReforged[];
 
       const primaryRune = parsedRunes.find((item) => item.key === runes.primaryRune);
       const secondaryRune = parsedRunes.find((item) => item.key === runes.secondaryRune);

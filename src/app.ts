@@ -4,15 +4,15 @@ import UserDAO from './dao/usersDAO';
 import BuildsDAO from './dao/buildsDAO';
 import ChampionDataDAO from './dao/championDataDAO';
 
-const port = process.env.PORT || 3000;
+const port = process.env['PORT'] || 3000;
 
 const dbUri =
-   process.env.PRODUCTION === 'true'
-      ? process.env.PROD_SUMMONERS_DB_URI
-      : process.env.SUMMONERS_DB_URI;
+   process.env['PRODUCTION'] === 'true'
+      ? process.env['PROD_SUMMONERS_DB_URI']
+      : process.env['SUMMONERS_DB_URI'];
 
 const startupMessage =
-   process.env.PRODUCTION === 'true'
+   process.env['PRODUCTION'] === 'true'
       ? `Server is up and running at port: ${port} (production mode)`
       : `Server is up and running at port: ${port} (developer mode)`;
 
