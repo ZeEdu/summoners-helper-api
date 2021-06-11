@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 // const express = require('express');
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import path from 'path';
 import morgan from 'morgan';
 
 import checkIfAuthenticated from './middlewares/auth.middleware';
@@ -17,7 +18,7 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname.split('src')[0], 'public')));
 
 app.use('/api/v1/validations/', validations);
 app.use('/api/v1/users/', users);
