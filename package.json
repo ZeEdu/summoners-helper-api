@@ -5,7 +5,8 @@
    "main": "src/index.ts",
    "scripts": {
       "start": "tsc && node dist/index.js",
-      "dev-start": "nodemon --exec 'ts-node' ./src/index.ts"
+      "dev-start": "nodemon --exec 'ts-node' ./src/index.ts",
+      "postinstall": "tsc"
    },
    "engines":{"node":"12.22.0"},
    "keywords": [],
