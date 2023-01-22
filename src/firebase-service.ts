@@ -1,6 +1,3 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
-
 import * as admin from 'firebase-admin';
 require('dotenv').config();
 
